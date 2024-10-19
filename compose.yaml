@@ -1,0 +1,59 @@
+networks:
+  forgejo:
+    external: false
+
+services:
+  server:
+    image: forgejo-aneksajo:8.0.3
+    container_name: forgejo
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - FORGEJO__database__DB_TYPE=postgres
+      - FORGEJO__database__HOST=db:5432
+      - FORGEJO__database__NAME=forgejo
+      - FORGEJO__database__USER=forgejo
+      - FORGEJO__database__PASSWD=${DBPASSWD}
+    restart: always
+    networks:
+      - forgejo
+    volumes:
+      - /mnt/raid1/forgejo:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "222:22"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_USER=forgejo
+      - POSTGRES_PASSWORD=${DBPASSWD}
+      - POSTGRES_DB=forgejo
+    networks:
+      - forgejo
+    volumes:
+      - /mnt/raid1/postgres:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx:stable-alpine
+    hostname: nginx
+    restart: always
+    volumes:
+      - "/root/forgejo/key.pem:/certs/nginx_key.pem:ro"
+      - "/root/forgejo/ca.pem:/certs/nginx_certificate.pem:ro"
+      - "/root/forgejo/nginx.conf:/etc/nginx/nginx.conf:ro"
+    ports:
+      - "0.0.0.0:443:443"
+      - "0.0.0.0:80:80"
+    environment:
+      NGINX_WORKER_PROCESSES: "4"
+      NGINX_WORKER_CONNECTIONS: "768"
+    networks:
+      - forgejo
+    depends_on:
+      - server
+
