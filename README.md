@@ -36,9 +36,13 @@ ufw route allow out on docker0
 docker run hello-world
 ```
 
+
+
 ```
 # Add root to the /etc/aliases file and add the msmtprc file to /etc
 apt -y install msmtp msmtp-mta mailutils
+hostname forgejo.neuro.uni-bremen.de
+cat /etc/hostname
 vi /etc/msmtprc
 chmod 644 /etc/msmtprc
 touch /var/log/msmtp.log
@@ -46,8 +50,6 @@ chmod 666 /var/log/msmtp.log
 # ln -s /usr/bin/msmtp /usr/sbin/sendmail
 
 # echo "Test message" | mail -s "Test subject" root
-
-Note: MAIL BROKEN!!!!
 ```
 
 ```
