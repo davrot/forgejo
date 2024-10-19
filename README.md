@@ -1,3 +1,4 @@
+```
 apt update
 apt upgrade
 
@@ -33,7 +34,9 @@ ufw route allow in on docker0
 ufw route allow out on docker0
 
 docker run hello-world
+```
 
+```
 # Add root to the /etc/aliases file and add the msmtprc file to /etc
 apt -y install msmtp msmtp-mta mailutils
 vi /etc/msmtprc
@@ -45,9 +48,11 @@ chmod 666 /var/log/msmtp.log
 # echo "Test message" | mail -s "Test subject" root
 
 Note: MAIL BROKEN!!!!
+```
 
-
+```
 cd /root
 git clone https://codeberg.org/matrss/forgejo-aneksajo.git
 cd forgejo-aneksajo/
 docker build --network host -t forgejo-aneksajo:8.0.3 .
+```
