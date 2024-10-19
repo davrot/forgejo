@@ -58,3 +58,9 @@ git clone https://codeberg.org/matrss/forgejo-aneksajo.git
 cd forgejo-aneksajo/
 docker build --network host -t forgejo-aneksajo:8.0.3 .
 ```
+
+```
+ufw allow 443
+ufw allow 80
+ufw allow 993
+```
